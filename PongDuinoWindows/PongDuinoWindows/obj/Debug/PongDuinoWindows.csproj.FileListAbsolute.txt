@@ -1,0 +1,9 @@
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\bin\Debug\PongDuinoWindows.exe.config
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\bin\Debug\PongDuinoWindows.exe
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\bin\Debug\PongDuinoWindows.pdb
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\obj\Debug\PongDuinoWindows.csprojResolveAssemblyReference.cache
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\obj\Debug\PongDuinoWindows.Form1.resources
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\obj\Debug\PongDuinoWindows.Properties.Resources.resources
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\obj\Debug\PongDuinoWindows.csproj.GenerateResource.Cache
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\obj\Debug\PongDuinoWindows.exe
+c:\users\baekj\documents\visual studio 2013\Projects\PongDuinoWindows\PongDuinoWindows\obj\Debug\PongDuinoWindows.pdb
