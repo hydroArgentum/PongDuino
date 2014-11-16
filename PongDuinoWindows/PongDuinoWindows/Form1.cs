@@ -19,6 +19,14 @@ namespace PongDuinoWindows
         SerialPort serial_device;
         //Make sure that the port is found.
         bool port_found = false;
+        uint difficulty;
+        uint cpu_hits = 0;
+        bool d_x = false;
+        bool d_y = false;
+        bool press_up = false;
+        bool press_down = false;
+        byte player_score = 0;
+        byte cpu_score = 0;
         public Form1()
         {
             InitializeComponent();
@@ -38,6 +46,33 @@ namespace PongDuinoWindows
                     if (DetectArduino())
                     {
                         port_found = true;
+                        button1.Enabled = false;
+                        pictureBox2.Location = new Point(pictureBox2.Location.X, 270);
+                        pictureBox3.Location = new Point(pictureBox3.Location.X, 270);
+                        difficulty = 1;
+                        Random rand_gen = new Random();
+                        int random_number = rand_gen.Next(1, 5);
+                        player_score = 0;
+                        cpu_score = 0;
+                        switch (random_number)
+                        {
+                            case 1:
+                                d_x = false;
+                                d_y = false;
+                                break;
+                            case 2:
+                                d_x = false;
+                                d_y = true;
+                                break;
+                            case 3:
+                                d_x = true;
+                                d_y = false;
+                                break;
+                            case 4:
+                                d_x = true;
+                                d_y = true;
+                                break;
+                        }
                         break;
                     }
                     else
@@ -84,6 +119,161 @@ namespace PongDuinoWindows
             }
             catch (Exception ex) {
                 return false;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (port_found)
+            {
+                if (d_x || d_y)
+                {
+                    pictureBox5.Location = new Point(pictureBox5.Location.X + 1, pictureBox5.Location.Y + 1);
+                }
+                else if (d_x || !d_y)
+                {
+                    pictureBox5.Location = new Point(pictureBox5.Location.X + 1, pictureBox5.Location.Y - 1);
+                }
+                else if (!d_x || d_y)
+                {
+                    pictureBox5.Location = new Point(pictureBox5.Location.X - 1, pictureBox5.Location.Y + 1);
+                }
+                else
+                {
+                    pictureBox5.Location = new Point(pictureBox5.Location.X - 1, pictureBox5.Location.Y - 1);
+                }
+                //Move player.
+                if (press_up)
+                {
+                    pictureBox2.Location = new Point(pictureBox2.Location.X, Math.Max(pictureBox2.Location.Y - 1, 43));
+                }
+                else if (press_down)
+                {
+                    pictureBox2.Location = new Point(pictureBox2.Location.X, Math.Min(pictureBox2.Location.Y + 1, 423));
+                }
+                //Move CPU
+                if (cpu_hits < difficulty)
+                {
+                    pictureBox3.Location = new Point(pictureBox3.Location.X, Math.Min(Math.Max(pictureBox5.Location.Y - 40, 43), 423));
+                }
+                //Check collision.
+                if (d_x && ((pictureBox5.Location.Y + pictureBox5.Height) > pictureBox2.Location.Y && pictureBox5.Location.Y < (pictureBox2.Location.Y + pictureBox2.Height) &&
+                    pictureBox2.Location.X > (pictureBox5.Location.X + pictureBox5.Width) && (pictureBox2.Location.X + pictureBox2.Width) < pictureBox5.Location.X))
+                {
+                    d_x = false;
+                }
+                if (!d_x && ((pictureBox5.Location.Y + pictureBox5.Height) > pictureBox3.Location.Y && pictureBox5.Location.Y < (pictureBox3.Location.Y + pictureBox3.Height) &&
+                    pictureBox5.Location.X > (pictureBox3.Location.X + pictureBox3.Width) && (pictureBox5.Location.X + pictureBox5.Width) < pictureBox3.Location.X))
+                {
+                    d_x = true;
+                    cpu_hits++;
+                }
+                if (d_y && (pictureBox5.Location.Y + pictureBox5.Height) > (pictureBox1.Location.Y + pictureBox1.Height))
+                {
+                    d_y = false;
+                }
+                if (!d_y && (pictureBox5.Location.Y < pictureBox1.Location.Y))
+                {
+                    d_y = true;
+                }
+                //Check score.
+                if (pictureBox5.Location.X < pictureBox1.Location.X)
+                {
+                    cpu_score++;
+                    //Reset.
+                    pictureBox2.Location = new Point(pictureBox2.Location.X, 270);
+                    pictureBox3.Location = new Point(pictureBox3.Location.X, 270);
+                    pictureBox5.Location = new Point(315, 278);
+                    Random rand_gen = new Random();
+                    int random_number = rand_gen.Next(1, 5);
+                    switch (random_number)
+                    {
+                        case 1:
+                            d_x = false;
+                            d_y = false;
+                            break;
+                        case 2:
+                            d_x = false;
+                            d_y = true;
+                            break;
+                        case 3:
+                            d_x = true;
+                            d_y = false;
+                            break;
+                        case 4:
+                            d_x = true;
+                            d_y = true;
+                            break;
+                    }
+                    if (difficulty != 1)
+                    {
+                        difficulty--;
+                    }
+                }
+                else if ((pictureBox5.Location.X + pictureBox5.Width) > (pictureBox1.Location.X + pictureBox1.Width))
+                {
+                    player_score++;
+                    //Reset.
+                    pictureBox2.Location = new Point(pictureBox2.Location.X, 270);
+                    pictureBox3.Location = new Point(pictureBox3.Location.X, 270);
+                    pictureBox5.Location = new Point(315, 278);
+                    Random rand_gen = new Random();
+                    int random_number = rand_gen.Next(1, 5);
+                    switch (random_number)
+                    {
+                        case 1:
+                            d_x = false;
+                            d_y = false;
+                            break;
+                        case 2:
+                            d_x = false;
+                            d_y = true;
+                            break;
+                        case 3:
+                            d_x = true;
+                            d_y = false;
+                            break;
+                        case 4:
+                            d_x = true;
+                            d_y = true;
+                            break;
+                    }
+                }
+                //Check end of game.
+                if (cpu_score == 15 || player_score == 15)
+                {
+                    button1.Enabled = true;
+                    port_found = false;
+                }
+                Application.DoEvents();
+            }
+        }
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.W)
+            {
+                if (!press_down)
+                {
+                    press_up = true;
+                }
+            }
+            else if (e.KeyCode == Keys.S)
+            {
+                if (!press_up)
+                {
+                    press_down = true;
+                }
+            }
+        }
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.W)
+            {
+                press_up = false;
+            }
+            else if (e.KeyCode == Keys.S)
+            {
+                press_down = false;
             }
         }
     }
